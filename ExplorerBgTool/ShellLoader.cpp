@@ -8,6 +8,25 @@
 
 #include "ShellLoader.h"
 
+#include <gdiplus.h>
+using namespace Gdiplus;
+
+Image* gifImage = nullptr;
+
+void LoadBackgroundImage(const wchar_t* filePath) {
+    gifImage = new Image(filePath);
+
+    if (gifImage->GetFrameCount(&frameDimension) > 1) {
+        // It's an animated GIF, handle animation
+        SetTimer(hwnd, 1, 100, NULL);  // Timer for animation, change delay as needed
+    }
+    else {
+        // Static image loading
+        // your current static image loading code here
+    }
+}
+
+
 long g_cDllRef = 0;
 
 /*如果您修改了代码 请使用VS的GUID工具生成新的GUID！*/

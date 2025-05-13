@@ -25,6 +25,24 @@
 #include "WinAPI.h"
 #include "HookDef.h"
 
+#include <gdiplus.h>
+#pragma comment(lib, "Gdiplus.lib")
+
+using namespace Gdiplus;
+ULONG_PTR gdiplusToken;
+GdiplusStartupInput gdiplusStartupInput;
+
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved) {
+    if (ul_reason_for_call == DLL_PROCESS_ATTACH) {
+        Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
+    }
+    else if (ul_reason_for_call == DLL_PROCESS_DETACH) {
+        Gdiplus::GdiplusShutdown(gdiplusToken);
+    }
+    return TRUE;
+}
+
+
 //AlphaBlend
 #pragma comment(lib, "Msimg32.lib")  
 
